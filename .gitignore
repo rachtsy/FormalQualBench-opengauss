@@ -2,3 +2,5 @@
 
 # Macos
 .DS_Store
+.claude
+.gauss
