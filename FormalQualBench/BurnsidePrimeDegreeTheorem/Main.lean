@@ -99,23 +99,25 @@ theorem MainTheorem
     exact (mem_fixedPoints.mp this) ⟨g, hg⟩
   · -- Case: P is not normal → G is 2-transitive
     left
-    -- G contains a cycle of intermediate length (2 ≤ support < p)
     have hp' : Nat.Prime (Nat.card α) := by rwa [Nat.card_eq_fintype_card]
     haveI hprim : IsPreprimitive (↥G) α := IsPreprimitive.of_prime_card hp'
-    have h_cycle : ∃ g : Equiv.Perm α, g.IsCycle ∧ g ∈ G ∧
-        2 ≤ g.support.card ∧ g.support.card < Fintype.card α := by
+    haveI := htrans
+    by_cases h_cycle : ∃ g : Equiv.Perm α, g.IsCycle ∧ g ∈ G ∧
+        2 ≤ g.support.card ∧ g.support.card < Fintype.card α
+    · obtain ⟨g, hgc, hgG, h2, hlt⟩ := h_cycle
+      have htrans' := Equiv.Perm.isPretransitive_of_isCycle_mem hgc hgG
+      set s := (g.support : Set α)ᶜ with hs_def
+      have hs_ncard : s.ncard = Fintype.card α - g.support.card := by
+        rw [hs_def, Set.ncard_compl (s := (↑g.support : Set α)),
+          Nat.card_eq_fintype_card, Set.ncard_coe_finset]
+      set n := s.ncard - 1 with hn_def
+      have hsn : s.ncard = n + 1 := by rw [hs_ncard]; omega
+      have hsn' : n + 2 < Nat.card α := by
+        rw [Nat.card_eq_fintype_card, hn_def, hs_ncard]; omega
+      exact hprim.is_two_pretransitive hsn hsn' htrans'
+    · -- No intermediate cycle exists.
+      -- Every non-identity element of G is either a p-cycle or a product of ≥2 cycles.
+      -- Combined with non-normality of P, this forces 2-transitivity.
       sorry
-    -- Apply Jordan's criterion for 2-pretransitivity
-    obtain ⟨g, hgc, hgG, h2, hlt⟩ := h_cycle
-    have htrans' := Equiv.Perm.isPretransitive_of_isCycle_mem hgc hgG
-    set s := (g.support : Set α)ᶜ with hs_def
-    have hs_ncard : s.ncard = Fintype.card α - g.support.card := by
-      rw [hs_def, Set.ncard_compl (s := (↑g.support : Set α)),
-        Nat.card_eq_fintype_card, Set.ncard_coe_finset]
-    set n := s.ncard - 1 with hn_def
-    have hsn : s.ncard = n + 1 := by rw [hs_ncard]; omega
-    have hsn' : n + 2 < Nat.card α := by
-      rw [Nat.card_eq_fintype_card, hn_def, hs_ncard]; omega
-    exact hprim.is_two_pretransitive hsn hsn' htrans'
 
 end BurnsidePrimeDegreeTheorem
