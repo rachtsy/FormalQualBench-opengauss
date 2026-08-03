@@ -31,10 +31,28 @@ private noncomputable def evalCMH (A : Type*) [CommGroup A] [TopologicalSpace A]
     change Continuous fun (p : A × PontryaginDual A) => (p.2 : A →ₜ* Circle) p.1
     exact (continuous_eval (F := A →ₜ* Circle)).comp continuous_swap
 
+-- The evaluation map is bijective: this is the core algebraic content of Pontryagin duality.
+-- Injectivity (characters separate points) follows from the Gelfand–Raikov theorem;
+-- surjectivity (every continuous character on the dual arises from evaluation) follows from
+-- Fourier inversion on LCA groups.  Neither ingredient is yet available in Mathlib for
+-- general locally compact abelian groups.
+private theorem evalCMH_bijective (A : Type*) [CommGroup A] [TopologicalSpace A]
+    [IsTopologicalGroup A] [LocallyCompactSpace A] [T2Space A] :
+    Function.Bijective (evalCMH A) := by
+  sorry
+
+-- The evaluation map is an open map: for a continuous bijective group homomorphism between
+-- locally compact Hausdorff groups this follows from the open mapping theorem (which in
+-- Mathlib requires sigma-compactness of the domain, a condition not present in our hypotheses).
+private theorem evalCMH_isOpenMap (A : Type*) [CommGroup A] [TopologicalSpace A]
+    [IsTopologicalGroup A] [LocallyCompactSpace A] [T2Space A] :
+    IsOpenMap (evalCMH A) := by
+  sorry
+
 private theorem evalCMH_isHomeomorph (A : Type*) [CommGroup A] [TopologicalSpace A]
     [IsTopologicalGroup A] [LocallyCompactSpace A] [T2Space A] :
-    IsHomeomorph (evalCMH A) := by
-  sorry
+    IsHomeomorph (evalCMH A) :=
+  IsHomeomorph.mk (evalCMH A).continuous (evalCMH_isOpenMap A) (evalCMH_bijective A)
 
 /-- **Pontryagin duality (canonical formulation)**: every locally compact Hausdorff abelian
 topological group is canonically topologically isomorphic to its double Pontryagin dual, via the
