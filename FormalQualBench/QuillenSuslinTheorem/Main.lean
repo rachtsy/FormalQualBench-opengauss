@@ -70,6 +70,20 @@ private theorem quillenSuslin_polynomial_step (R : Type u)
     (P : Type v) [AddCommGroup P] [Module (Polynomial R) P]
     [Module.Finite (Polynomial R) P] [Module.Projective (Polynomial R) P] :
     Module.Free (Polynomial R) P := by
+  /- **Horrocks' theorem** (not in Mathlib): over a local Noetherian ring, every finitely
+     generated projective module over `R[X]` is free. The proof shows that such modules are
+     "extended" from `R` (i.e., isomorphic to `R[X] ⊗_R N`), and since `R` is local, `N` is
+     automatically free, giving freeness of the polynomial module. -/
+  have horrocks : ∀ (S : Type u) [CommRing S] [IsLocalRing S] [IsNoetherianRing S]
+      (Q : Type v) [AddCommGroup Q] [Module (Polynomial S) Q]
+      [Module.Finite (Polynomial S) Q] [Module.Projective (Polynomial S) Q],
+      Module.Free (Polynomial S) Q := by
+    sorry
+  /- **Quillen's local-global principle** (not in Mathlib): for every maximal ideal `𝔪` of `R`,
+     the localization `R_𝔪` is a local Noetherian ring, so by Horrocks the localization `P_𝔪`
+     is free over `R_𝔪[X]`. Quillen's patching theorem then yields `P ≅ R[X] ⊗_R Q` for some
+     finitely generated projective `R`-module `Q`. By hypothesis `hR`, `Q` is free, hence `P`
+     is free over `R[X]`. -/
   sorry
 
 end InductiveStep
