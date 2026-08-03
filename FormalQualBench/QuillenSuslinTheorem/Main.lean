@@ -71,20 +71,19 @@ private theorem quillenSuslin_polynomial_step (R : Type u)
     (P : Type v) [AddCommGroup P] [Module (Polynomial R) P]
     [Module.Finite (Polynomial R) P] [Module.Projective (Polynomial R) P] :
     Module.Free (Polynomial R) P := by
-  /- The proof combines two deep results, neither in Mathlib:
-
-     **Horrocks' theorem** (1964): Over a local Noetherian ring S, every f.g. projective S[X]-module
-     is "extended" from S: isomorphic to S[X] ⊗_S N for some f.g. projective S-module N.
-     Since S is local, N is free (`free_of_flat_of_isLocalRing` + `Flat.of_projective`),
-     hence the polynomial module is free.
-
-     **Quillen's local-global principle** (1976): For every maximal ideal 𝔪 of R, the localization
-     R_𝔪 is a local Noetherian ring, so Horrocks applies to P_𝔪. Quillen's patching theorem
-     then reconstructs P ≅ R[X] ⊗_R Q for some f.g. projective R-module Q. By hypothesis `hR`,
-     Q is free, hence P is free over R[X].
-
-     Neither Horrocks' extension property nor Quillen patching is available in Mathlib. -/
-  sorry
+  /- **Extension property** (Horrocks 1964 + Quillen 1976): P is "extended" from R, meaning
+     P ≅ R[X] ⊗_R N for some f.g. projective R-module N. This combines Horrocks' theorem
+     (the local case, where R is local) with Quillen's local-global patching principle.
+     Neither result is available in Mathlib. Once N is obtained, the conclusion follows:
+     N is free by `hR`, so R[X] ⊗_R N is free by `Algebra.TensorProduct.instFree`. -/
+  obtain ⟨N, _, _, _, _, ⟨e⟩⟩ : ∃ (N : Type v) (_ : AddCommGroup N) (_ : Module R N)
+      (_ : Module.Finite R N) (_ : Module.Projective R N),
+      Nonempty (P ≃ₗ[Polynomial R] TensorProduct R (Polynomial R) N) := by
+    sorry
+  haveI : Module.Free R N := hR N
+  haveI : Module.Free (Polynomial R) (TensorProduct R (Polynomial R) N) :=
+    Algebra.TensorProduct.instFree R (Polynomial R) N
+  exact Module.Free.of_equiv e.symm
 
 end InductiveStep
 
