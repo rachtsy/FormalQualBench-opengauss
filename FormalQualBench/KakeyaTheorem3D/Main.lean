@@ -15,13 +15,39 @@ def segmentAlong (x v : R3) : Set R3 := (fun t : ℝ => x + t • v) '' Set.Icc 
 def IsKakeyaSet (K : Set R3) : Prop :=
   ∀ v : R3, ‖v‖ = 1 → ∃ x : R3, segmentAlong x v ⊆ K
 
+private lemma segmentAlong_eq_segment (x v : R3) :
+    segmentAlong x v = segment ℝ x (x + v) := by
+  simp only [segmentAlong, segment_eq_image']
+  congr 1; ext t; simp [add_sub_cancel_left]
+
+private lemma dimH_segmentAlong_unit (x v : R3) (hv : ‖v‖ = 1) :
+    dimH (segmentAlong x v) = 1 := by
+  rw [segmentAlong_eq_segment]
+  apply dimH_of_hausdorffMeasure_ne_zero_ne_top
+  · rw [show ((1 : NNReal) : ℝ) = (1 : ℝ) from by norm_cast, hausdorffMeasure_segment]
+    rw [Ne, edist_eq_zero]; intro h
+    have : v = 0 := by
+      have := sub_eq_zero.mpr h
+      simp only [sub_add_cancel_left, neg_eq_zero] at this
+      exact this
+    norm_num [this] at hv
+  · rw [show ((1 : NNReal) : ℝ) = (1 : ℝ) from by norm_cast, hausdorffMeasure_segment]
+    exact edist_ne_top x (x + v)
+
 /-- Wang–Zahl (2025): for any Kakeya set K in R^3 and any d < 3, the
     d-dimensional Hausdorff measure of K is infinite.  This is the hard
     analytic core of the 3-dimensional Kakeya conjecture. -/
 private lemma kakeya_hausdorffMeasure_eq_top (K : Set R3) (hK : IsKakeyaSet K)
     (d : NNReal) (hd : (d : ENNReal) < 3) :
     Measure.hausdorffMeasure (↑d : ℝ) K = ⊤ := by
-  sorry
+  by_cases hd1 : (d : ENNReal) < 1
+  · -- d < 1: K ⊇ segment with dimH = 1, so μH[d] = ⊤ by monotonicity
+    let e₁ : R3 := EuclideanSpace.single (0 : Fin 3) 1
+    obtain ⟨x, hx⟩ := hK e₁ (by simp [e₁, EuclideanSpace.norm_single])
+    have := dimH_segmentAlong_unit x e₁ (by simp [e₁, EuclideanSpace.norm_single])
+    exact top_unique (hausdorffMeasure_of_lt_dimH (this ▸ hd1) ▸ measure_mono hx)
+  · -- 1 ≤ d < 3: the hard analytic core (Wang–Zahl 2025)
+    sorry
 
 /-- The three-dimensional Kakeya theorem: every Kakeya set in `R^3` has Hausdorff dimension `3`. -/
 theorem MainTheorem :
