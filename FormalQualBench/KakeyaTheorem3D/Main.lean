@@ -17,6 +17,11 @@ def IsKakeyaSet (K : Set R3) : Prop :=
 /-- The three-dimensional Kakeya theorem: every Kakeya set in `R^3` has Hausdorff dimension `3`. -/
 theorem MainTheorem :
     ∀ K : Set R3, IsKakeyaSet K → dimH K = (3 : ENNReal) := by
-  sorry
+  intro K hK
+  apply le_antisymm
+  · calc dimH K ≤ dimH (Set.univ : Set R3) := dimH_mono (subset_univ _)
+      _ = ↑(Module.finrank ℝ R3) := Real.dimH_univ_eq_finrank R3
+      _ = 3 := by simp
+  · sorry
 
 end KakeyaTheorem3D
