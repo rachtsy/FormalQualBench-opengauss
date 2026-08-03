@@ -100,8 +100,8 @@ private theorem quillenSuslin_polynomial_step (R : Type u)
     -- Step 1: There exist r and a surjective S[X]-linear map S[X]^r ↠ Q whose reduction
     -- modulo 𝔪 is a k[X]-isomorphism (hence r = rank of Q at the residue field).
     obtain ⟨r, f, hf_surj⟩ : ∃ (r : ℕ) (f : (Fin r → Polynomial S) →ₗ[Polynomial S] Q),
-        Function.Surjective f := by
-      sorry
+        Function.Surjective f :=
+      Module.Finite.exists_fin' (Polynomial S) Q
     -- Step 2: The surjection f is injective (ker(f) = 0 by rank + patching argument).
     have hf_inj : Function.Injective f := by
       sorry
