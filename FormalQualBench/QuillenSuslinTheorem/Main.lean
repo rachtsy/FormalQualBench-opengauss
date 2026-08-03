@@ -71,46 +71,19 @@ private theorem quillenSuslin_polynomial_step (R : Type u)
     (P : Type v) [AddCommGroup P] [Module (Polynomial R) P]
     [Module.Finite (Polynomial R) P] [Module.Projective (Polynomial R) P] :
     Module.Free (Polynomial R) P := by
-  /- **Horrocks' theorem** (not in Mathlib): over a local Noetherian ring, every finitely
-     generated projective module over `R[X]` is free. The proof shows that such modules are
-     "extended" from `R` (i.e., isomorphic to `R[X] ⊗_R N`), and since `R` is local, `N` is
-     automatically free, giving freeness of the polynomial module. -/
-  have horrocks : ∀ (S : Type u) [CommRing S] [IsLocalRing S] [IsNoetherianRing S]
-      (Q : Type v) [AddCommGroup Q] [Module (Polynomial S) Q]
-      [Module.Finite (Polynomial S) Q] [Module.Projective (Polynomial S) Q],
-      Module.Free (Polynomial S) Q := by
-    intro S _ _ _ Q _ _ _ _
-    haveI : IsNoetherianRing (Polynomial S) := Polynomial.isNoetherianRing
-    /- **Horrocks' theorem** (Horrocks 1964; Quillen & Suslin 1976): over a local Noetherian
-       ring S, every f.g. projective S[X]-module Q is free. The proof has two parts:
+  /- The proof combines two deep results, neither in Mathlib:
 
-       **Step 1** (Rank-correct surjection): Let k = S/𝔪 be the residue field. The reduction
-       Q̄ = Q/𝔪Q is f.g. projective over k[X], which is a PID (`Polynomial.instEuclideanDomain`),
-       hence free of some rank r. Lifting a k[X]-basis of Q̄ to Q yields a surjective S[X]-linear
-       map φ : S[X]^r ↠ Q (surjectivity follows from Nakayama's lemma applied to the ideal
-       𝔪·S[X] and the f.g. module Q).
+     **Horrocks' theorem** (1964): Over a local Noetherian ring S, every f.g. projective S[X]-module
+     is "extended" from S: isomorphic to S[X] ⊗_S N for some f.g. projective S-module N.
+     Since S is local, N is free (`free_of_flat_of_isLocalRing` + `Flat.of_projective`),
+     hence the polynomial module is free.
 
-       **Step 2** (Injectivity): Since Q is projective, the exact sequence
-       0 → ker(φ) → S[X]^r → Q → 0 splits, giving S[X]^r ≅ Q ⊕ ker(φ). The kernel is f.g.
-       (submodule of S[X]^r, and S[X] is Noetherian by `Polynomial.isNoetherianRing`). By the
-       rank computation, ker(φ) has rank 0 at every prime of S[X]. Over S[X] with S local, a
-       f.g. projective rank-0 summand of a free module must vanish — this is the deep content
-       of the theorem, requiring either Quillen patching or Suslin's unimodular-row method,
-       neither of which is available in Mathlib. -/
-    -- Step 1: There exist r and a surjective S[X]-linear map S[X]^r ↠ Q whose reduction
-    -- modulo 𝔪 is a k[X]-isomorphism (hence r = rank of Q at the residue field).
-    obtain ⟨r, f, hf_surj⟩ : ∃ (r : ℕ) (f : (Fin r → Polynomial S) →ₗ[Polynomial S] Q),
-        Function.Surjective f :=
-      Module.Finite.exists_fin' (Polynomial S) Q
-    -- Step 2: The surjection f is injective (ker(f) = 0 by rank + patching argument).
-    have hf_inj : Function.Injective f := by
-      sorry
-    exact Module.Free.of_equiv (LinearEquiv.ofBijective f ⟨hf_inj, hf_surj⟩)
-  /- **Quillen's local-global principle** (not in Mathlib): for every maximal ideal `𝔪` of `R`,
-     the localization `R_𝔪` is a local Noetherian ring, so by Horrocks the localization `P_𝔪`
-     is free over `R_𝔪[X]`. Quillen's patching theorem then yields `P ≅ R[X] ⊗_R Q` for some
-     finitely generated projective `R`-module `Q`. By hypothesis `hR`, `Q` is free, hence `P`
-     is free over `R[X]`. -/
+     **Quillen's local-global principle** (1976): For every maximal ideal 𝔪 of R, the localization
+     R_𝔪 is a local Noetherian ring, so Horrocks applies to P_𝔪. Quillen's patching theorem
+     then reconstructs P ≅ R[X] ⊗_R Q for some f.g. projective R-module Q. By hypothesis `hR`,
+     Q is free, hence P is free over R[X].
+
+     Neither Horrocks' extension property nor Quillen patching is available in Mathlib. -/
   sorry
 
 end InductiveStep
