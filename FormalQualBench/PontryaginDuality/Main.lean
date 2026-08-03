@@ -31,14 +31,9 @@ private noncomputable def evalCMH (A : Type*) [CommGroup A] [TopologicalSpace A]
     change Continuous fun (p : A × PontryaginDual A) => (p.2 : A →ₜ* Circle) p.1
     exact (continuous_eval (F := A →ₜ* Circle)).comp continuous_swap
 
-private theorem evalCMH_bijective (A : Type*) [CommGroup A] [TopologicalSpace A]
+private theorem evalCMH_isHomeomorph (A : Type*) [CommGroup A] [TopologicalSpace A]
     [IsTopologicalGroup A] [LocallyCompactSpace A] [T2Space A] :
-    Function.Bijective (evalCMH A) := by
-  sorry
-
-private theorem evalCMH_isOpenMap (A : Type*) [CommGroup A] [TopologicalSpace A]
-    [IsTopologicalGroup A] [LocallyCompactSpace A] [T2Space A] :
-    IsOpenMap (evalCMH A) := by
+    IsHomeomorph (evalCMH A) := by
   sorry
 
 /-- **Pontryagin duality (canonical formulation)**: every locally compact Hausdorff abelian
@@ -47,12 +42,8 @@ evaluation map `a ↦ (χ ↦ χ a)`. -/
 theorem MainTheorem (A : Type*) [CommGroup A] [TopologicalSpace A]
     [IsTopologicalGroup A]
     [LocallyCompactSpace A] [T2Space A] :
-    ∃ e : A ≃ₜ* PontryaginDual (PontryaginDual A), IsEvaluationIso A e := by
-  have hbij := evalCMH_bijective A
-  have hopen := evalCMH_isOpenMap A
-  exact ⟨ContinuousMulEquiv.mk'
-    ((Equiv.ofBijective (evalCMH A) hbij).toHomeomorphOfContinuousOpen
-      (evalCMH A).continuous_toFun hopen)
-    (map_mul (evalCMH A)), fun _ _ => rfl⟩
+    ∃ e : A ≃ₜ* PontryaginDual (PontryaginDual A), IsEvaluationIso A e :=
+  ⟨ContinuousMulEquiv.mk' ((evalCMH_isHomeomorph A).homeomorph _) (map_mul (evalCMH A)),
+    fun _ _ => rfl⟩
 
 end PontryaginDuality
