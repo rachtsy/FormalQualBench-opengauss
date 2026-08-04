@@ -3,18 +3,25 @@ import Mathlib.Tactic.IntervalCases
 
 namespace TernaryGoldbachTheorem
 
+private def goldbachTriple (n : ℕ) : ℕ × ℕ × ℕ :=
+  let m := n - 3
+  if (m - 2).Prime then (3, 2, m - 2)
+  else
+    let rec go (p : ℕ) (fuel : ℕ) : ℕ × ℕ × ℕ :=
+      if fuel = 0 then (0, 0, 0)
+      else if p.Prime && (m - p).Prime then (3, p, m - p)
+      else go (p + 2) (fuel - 1)
+    go 3 (m / 2)
+
 set_option linter.style.nativeDecide false in
 set_option linter.style.maxHeartbeats false in
-set_option maxHeartbeats 800000 in
-private lemma smallCases (n : ℕ) (hodd : n % 2 = 1) (hgt : 5 < n) (hle : n ≤ 100) :
+set_option maxHeartbeats 200000000 in
+private lemma smallCases (n : ℕ) (hodd : n % 2 = 1) (hgt : 5 < n) (hle : n ≤ 5000) :
     ∃ p q r : ℕ, p.Prime ∧ q.Prime ∧ r.Prime ∧ n = p + q + r := by
-  suffices h : ∃ p q r : Fin (n + 1),
-      (p : ℕ).Prime ∧ (q : ℕ).Prime ∧ (r : ℕ).Prime ∧ n = ↑p + ↑q + ↑r by
-    obtain ⟨p, q, r, hp, hq, hr, hpqr⟩ := h
-    exact ⟨↑p, ↑q, ↑r, hp, hq, hr, hpqr⟩
+  refine ⟨(goldbachTriple n).1, (goldbachTriple n).2.1, (goldbachTriple n).2.2, ?_⟩
   interval_cases n <;> first | omega | native_decide
 
-private lemma largeCases (n : ℕ) (hodd : n % 2 = 1) (hgt : 100 < n) :
+private lemma largeCases (n : ℕ) (hodd : n % 2 = 1) (hgt : 5000 < n) :
     ∃ p q r : ℕ, p.Prime ∧ q.Prime ∧ r.Prime ∧ n = p + q + r := by
   sorry
 
@@ -24,7 +31,7 @@ theorem MainTheorem :
       n % 2 = 1 →
         5 < n → ∃ p q r : ℕ, p.Prime ∧ q.Prime ∧ r.Prime ∧ n = p + q + r := by
   intro n hodd hgt
-  by_cases hle : n ≤ 100
+  by_cases hle : n ≤ 5000
   · exact smallCases n hodd hgt hle
   · exact largeCases n hodd (by omega)
 
