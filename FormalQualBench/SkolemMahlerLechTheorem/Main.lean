@@ -7,6 +7,20 @@ namespace SkolemMahlerLechTheorem
 def arithProg (a d : ℕ) : Set ℕ :=
   Set.range fun n : ℕ => a + d * n
 
+/-- The p-adic dichotomy for linear recurrences (Skolem–Mahler–Lech, core analytic step):
+for a linear recurrence of positive order over a characteristic-zero field, there exists a
+modulus `d > 0` such that on each residue class modulo `d`, the solution is either eventually
+identically zero or eventually never zero. This combines: (1) expressing the solution as an
+exponential polynomial via roots of the characteristic polynomial, (2) embedding into a p-adic
+field and choosing `d` so that root ratios become trivial on each residue class, and
+(3) Strassman's theorem bounding the p-adic zeros of the resulting power series. -/
+private lemma padic_zero_set_dichotomy (K : Type*) [Field K] [CharZero K]
+    (E : LinearRecurrence K) (u : ℕ → K) (hu : E.IsSolution u) (hord : E.order ≠ 0) :
+    ∃ d : ℕ, 0 < d ∧ ∀ r : Fin d,
+      (∃ N, ∀ n, N ≤ n → u (↑r + d * n) = 0) ∨
+      (∃ N, ∀ n, N ≤ n → u (↑r + d * n) ≠ 0) := by
+  sorry
+
 /-- The zero set of a linear recurrence over a characteristic-zero field is eventually periodic:
 there exist `N` and `d > 0` such that for all `n ≥ N`, `u n = 0 ↔ u (n + d) = 0`.
 This is the core analytic content of the Skolem–Mahler–Lech theorem, requiring p-adic methods. -/
@@ -40,8 +54,30 @@ private theorem zeroSet_eventuallyPeriodic (K : Type*) [Field K] [CharZero K]
       rw [hpow n, hpow (n + 1), mul_eq_zero, mul_eq_zero,
         pow_eq_zero_iff (show n ≠ 0 by omega),
         pow_eq_zero_iff (show n + 1 ≠ 0 by omega)]
-    · -- Order ≥ 2: requires p-adic analysis (Skolem–Mahler–Lech)
-      sorry
+    · -- Order ≥ 2: apply the p-adic dichotomy
+      obtain ⟨d, hd, hdic⟩ := padic_zero_set_dichotomy K E u hu hord
+      -- Convert dichotomy to stabilization on each residue class
+      have hstab : ∀ r : Fin d, ∃ N, ∀ n, N ≤ n →
+          (u (↑r + d * n) = 0 ↔ u (↑r + d * (n + 1)) = 0) := by
+        intro r; rcases hdic r with ⟨N, hN⟩ | ⟨N, hN⟩
+        · exact ⟨N, fun n hn => ⟨fun _ => hN (n + 1) (by omega), fun _ => hN n hn⟩⟩
+        · exact ⟨N, fun n hn => iff_of_false (hN n hn) (hN (n + 1) (by omega))⟩
+      choose N_r hN_r using hstab
+      -- Global threshold ensuring all residue classes have stabilized
+      refine ⟨d * (Finset.univ.sup N_r + 1), d, hd, fun n hn => ?_⟩
+      have hmod : n % d < d := Nat.mod_lt n hd
+      have hdiv_eq : n % d + d * (n / d) = n := Nat.mod_add_div n d
+      have hq : N_r ⟨n % d, hmod⟩ ≤ n / d := by
+        have hsup : N_r ⟨n % d, hmod⟩ ≤ Finset.univ.sup N_r :=
+          Finset.le_sup (f := N_r) (Finset.mem_univ (⟨n % d, hmod⟩ : Fin d))
+        have hge : Finset.univ.sup N_r + 1 ≤ n / d :=
+          (Nat.le_div_iff_mul_le hd).mpr (mul_comm d _ ▸ hn)
+        omega
+      have h1 : u n = u (↑(⟨n % d, hmod⟩ : Fin d) + d * (n / d)) := by
+        congr 1; change n = n % d + d * (n / d); omega
+      have h2 : u (n + d) = u (↑(⟨n % d, hmod⟩ : Fin d) + d * (n / d + 1)) := by
+        congr 1; change n + d = n % d + d * (n / d + 1); rw [mul_add, mul_one]; omega
+      rw [h1, h2]; exact hN_r ⟨n % d, hmod⟩ (n / d) hq
 
 /-- An eventually periodic subset of `ℕ` decomposes as a finite set plus a finite union of
 arithmetic progressions. -/
