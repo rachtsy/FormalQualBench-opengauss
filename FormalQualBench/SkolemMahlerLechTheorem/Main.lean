@@ -13,7 +13,35 @@ This is the core analytic content of the Skolem–Mahler–Lech theorem, requiri
 private theorem zeroSet_eventuallyPeriodic (K : Type*) [Field K] [CharZero K]
     (E : LinearRecurrence K) (u : ℕ → K) (hu : E.IsSolution u) :
     ∃ (N d : ℕ), 0 < d ∧ ∀ n, N ≤ n → (u n = 0 ↔ u (n + d) = 0) := by
-  sorry
+  by_cases hord : E.order = 0
+  · refine ⟨0, 1, one_pos, fun n _ => ?_⟩
+    have hzero : ∀ m, u m = 0 := by
+      intro m
+      have h := hu m
+      rw [show m + E.order = m from by omega] at h
+      haveI : IsEmpty (Fin E.order) := by rw [hord]; exact Fin.isEmpty
+      rwa [Finset.sum_eq_zero (fun i _ => (IsEmpty.false i).elim)] at h
+    simp [hzero]
+  · by_cases hord1 : E.order = 1
+    · -- Order 1: u(n+1) = c*u(n), so u(n) = c^n * u(0)
+      have hrec : ∀ n, u (n + 1) = E.coeffs ⟨0, by omega⟩ * u n := by
+        intro n
+        have h := hu n
+        rw [show n + E.order = n + 1 from by omega] at h
+        rw [Finset.sum_eq_single_of_mem ⟨0, by omega⟩ (Finset.mem_univ _)
+          (fun b _ hb => absurd (Fin.ext (by omega)) hb)] at h
+        simpa using h
+      set c := E.coeffs ⟨0, by omega⟩
+      have hpow : ∀ n, u n = c ^ n * u 0 := by
+        intro n; induction n with
+        | zero => rw [pow_zero, one_mul]
+        | succ n ih => rw [hrec, ih]; ring
+      refine ⟨1, 1, one_pos, fun n hn => ?_⟩
+      rw [hpow n, hpow (n + 1), mul_eq_zero, mul_eq_zero,
+        pow_eq_zero_iff (show n ≠ 0 by omega),
+        pow_eq_zero_iff (show n + 1 ≠ 0 by omega)]
+    · -- Order ≥ 2: requires p-adic analysis (Skolem–Mahler–Lech)
+      sorry
 
 /-- An eventually periodic subset of `ℕ` decomposes as a finite set plus a finite union of
 arithmetic progressions. -/
