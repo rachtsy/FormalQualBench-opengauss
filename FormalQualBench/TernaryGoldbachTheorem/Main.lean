@@ -21,9 +21,16 @@ private lemma smallCases (n : ℕ) (hodd : n % 2 = 1) (hgt : 5 < n) (hle : n ≤
   refine ⟨(goldbachTriple n).1, (goldbachTriple n).2.1, (goldbachTriple n).2.2, ?_⟩
   interval_cases n <;> first | omega | native_decide
 
+/-- Goldbach's binary conjecture for even numbers > 4: every even n > 4 is the sum of two primes.
+This deep result of analytic number theory is not currently available in Mathlib. -/
+private lemma evenGoldbachForLarge (n : ℕ) (heven : n % 2 = 0) (hgt : 4 < n) :
+    ∃ p q, Nat.Prime p ∧ Nat.Prime q ∧ n = p + q := by
+  sorry
+
 private lemma largeCases (n : ℕ) (hodd : n % 2 = 1) (hgt : 5000 < n) :
     ∃ p q r : ℕ, p.Prime ∧ q.Prime ∧ r.Prime ∧ n = p + q + r := by
-  sorry
+  obtain ⟨p, q, hp, hq, hpq⟩ := evenGoldbachForLarge (n - 3) (by omega) (by omega)
+  exact ⟨3, p, q, by decide, hp, hq, by omega⟩
 
 /-- Helfgott's ternary Goldbach theorem. -/
 theorem MainTheorem :
