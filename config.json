@@ -1,13 +1,7 @@
 {
-  "challenge_module": "Challenge.DeBruijnErdos",
-  "solution_module": "Solution.DeBruijnErdos",
-  "theorem_names": [
-    "DeBruijnErdos.MainTheorem"
-  ],
-  "permitted_axioms": [
-    "propext",
-    "Quot.sound",
-    "Classical.choice"
-  ],
+  "challenge_module": "Challenge.VonNeumannDoubleCommutantTheorem",
+  "solution_module": "Solution.VonNeumannDoubleCommutantTheorem",
+  "theorem_names": ["VonNeumannDoubleCommutantTheorem.MainTheorem"],
+  "permitted_axioms": ["propext", "Quot.sound", "Classical.choice"],
   "enable_nanoda": false
 }
