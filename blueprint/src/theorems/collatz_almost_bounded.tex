@@ -1,0 +1,31 @@
+\section{Almost bounded values of the Collatz map}
+
+\begin{definition}[Collatz map]
+\label{def:collatz-map}
+\lean{CollatzMapAlmostBoundedValues.collatz}
+\leanok
+The Collatz map sends an even $n$ to $n/2$ and an odd $n$ to $3n+1$.
+\end{definition}
+
+\begin{definition}[Attaining a lower value]
+\label{def:collatz-below}
+\lean{CollatzMapAlmostBoundedValues.AttainsBelow}
+\leanok
+\uses{def:collatz-map}
+$\mathrm{AttainsBelow}(f,n)$ means that some Collatz iterate of $n$ is strictly less than $f(n)$.
+\end{definition}
+
+\begin{definition}[Logarithmic density zero]
+\label{def:collatz-log-density}
+\lean{CollatzMapAlmostBoundedValues.logWeightSum,CollatzMapAlmostBoundedValues.LogDensityZero}
+\leanok
+The exceptional set is measured using logarithmic density.
+\end{definition}
+
+\begin{theorem}[Almost all Collatz orbits attain almost bounded values]
+\label{thm:collatz-almost-bounded}
+\lean{CollatzMapAlmostBoundedValues.MainTheorem}
+\notready
+\uses{def:collatz-below,def:collatz-log-density}
+For every $f(n)\to\infty$, the starting values whose Collatz orbit never falls below $f(n)$ have logarithmic density zero.
+\end{theorem}

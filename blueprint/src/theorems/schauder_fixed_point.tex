@@ -1,0 +1,39 @@
+\section{Schauder fixed point theorem}
+
+\begin{lemma}[Bump functions]
+\label{lem:schauder-bumps}
+\lean{SchauderFixedPointTheorem.bump_continuous,SchauderFixedPointTheorem.sum_bump_pos}
+\leanok
+The bump functions used in the finite-dimensional approximation are continuous and their sum is positive on a covered compact set.
+\end{lemma}
+
+\begin{lemma}[Center-of-mass approximation]
+\label{lem:schauder-center}
+\lean{SchauderFixedPointTheorem.centerMass_approx}
+\leanok
+\uses{lem:schauder-bumps}
+The bump-weighted center of mass stays within the prescribed approximation radius.
+\end{lemma}
+
+\begin{theorem}[Schauder projection]
+\label{thm:schauder-projection}
+\lean{SchauderFixedPointTheorem.schauder_projection_exists}
+\leanok
+\uses{lem:schauder-bumps,lem:schauder-center}
+A compact set admits a continuous approximation by the convex hull of finitely many points.
+\end{theorem}
+
+\begin{theorem}[Finite-dimensional Brouwer step]
+\label{thm:schauder-brouwer}
+\lean{SchauderFixedPointTheorem.brouwer_fixed_point_convexHull_finite}
+\notready
+A continuous self-map of the convex hull of a finite nonempty set has a fixed point. This Brouwer fixed-point input is still a \texttt{sorry}.
+\end{theorem}
+
+\begin{theorem}[Schauder fixed point theorem]
+\label{thm:schauder-fixed-point}
+\lean{SchauderFixedPointTheorem.MainTheorem}
+\notready
+\uses{thm:schauder-projection,thm:schauder-brouwer}
+A continuous self-map of a nonempty compact convex subset of a Banach space has a fixed point.
+\end{theorem}

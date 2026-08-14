@@ -1,0 +1,39 @@
+\section{Skolem--Mahler--Lech theorem}
+
+\begin{definition}[Arithmetic progression]
+\label{def:sml-ap}
+\lean{SkolemMahlerLechTheorem.arithProg}
+\leanok
+$\operatorname{arithProg}(a,d)=\{a+dn:n\in\mathbb N\}$.
+\end{definition}
+
+\begin{lemma}[$p$-adic zero-set dichotomy]
+\label{lem:sml-padic}
+\lean{SkolemMahlerLechTheorem.padic_zero_set_dichotomy}
+\notready
+The zero set of a linear recurrence eventually either vanishes identically or avoids zero on each residue class modulo a suitable $d$. This $p$-adic analytic step remains a \texttt{sorry}.
+\end{lemma}
+
+\begin{theorem}[Eventual periodicity of the zero set]
+\label{thm:sml-periodic}
+\lean{SkolemMahlerLechTheorem.zeroSet_eventuallyPeriodic}
+\notready
+\uses{lem:sml-padic}
+The zero set of a linear recurrence over a characteristic-zero field is eventually periodic.
+\end{theorem}
+
+\begin{theorem}[Decomposition of an eventually periodic set]
+\label{thm:sml-decomp}
+\lean{SkolemMahlerLechTheorem.eventuallyPeriodic_decomp}
+\leanok
+\uses{def:sml-ap}
+An eventually periodic subset of $\mathbb N$ is a finite exceptional set together with a finite union of arithmetic progressions.
+\end{theorem}
+
+\begin{theorem}[Skolem--Mahler--Lech]
+\label{thm:skolem-mahler-lech}
+\lean{SkolemMahlerLechTheorem.MainTheorem}
+\notready
+\uses{thm:sml-periodic,thm:sml-decomp}
+The zero set of a linear recurrence over a characteristic-zero field is a finite union of arithmetic progressions together with a finite exceptional set.
+\end{theorem}

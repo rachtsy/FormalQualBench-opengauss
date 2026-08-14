@@ -1,0 +1,53 @@
+\section{Quantifier elimination for dense linear orders}
+
+\begin{definition}[Quantifier elimination]
+\label{def:dlo-qe}
+\lean{DLOQuantifierElimination.EliminatesQuantifiers}
+\leanok
+A theory eliminates quantifiers when every bounded formula is semantically equivalent, in all models of the theory, to a quantifier-free formula.
+\end{definition}
+
+\begin{lemma}[Basic DLO model facts]
+\label{lem:dlo-models}
+\lean{DLOQuantifierElimination.nonempty_of_model,DLOQuantifierElimination.model_dlo_of_T_dlo,DLOQuantifierElimination.model_linearOrder_of_T_dlo}
+\leanok
+Models of the working DLO theory are nonempty dense linear orders.
+\end{lemma}
+
+\begin{definition}[Finite conjunctions and disjunctions]
+\label{def:dlo-big}
+\lean{DLOQuantifierElimination.bigConj,DLOQuantifierElimination.bigDisj}
+\leanok
+Finite conjunctions and disjunctions of bounded formulas are represented by list folds.
+\end{definition}
+
+\begin{lemma}[Quantifier-free closure]
+\label{lem:dlo-big-qf}
+\lean{DLOQuantifierElimination.isQF_bigConj,DLOQuantifierElimination.isQF_bigDisj,DLOQuantifierElimination.realize_bigConj,DLOQuantifierElimination.realize_bigDisj}
+\leanok
+\uses{def:dlo-big}
+Finite conjunctions and disjunctions preserve quantifier-freeness and have the expected semantics.
+\end{lemma}
+
+\begin{lemma}[Order-profile invariance]
+\label{lem:dlo-invariant}
+\lean{DLOQuantifierElimination.order_term_val,DLOQuantifierElimination.realize_order_le,DLOQuantifierElimination.qf_order_invariant}
+\leanok
+Quantifier-free formulas in the order language depend only on the comparison profile of the evaluated variables.
+\end{lemma}
+
+\begin{lemma}[Eliminating one existential quantifier]
+\label{lem:dlo-exists}
+\lean{DLOQuantifierElimination.qf_exists_elim}
+\notready
+\uses{lem:dlo-models,lem:dlo-big-qf,lem:dlo-invariant}
+The existential quantifier over a quantifier-free formula can be eliminated by a finite disjunction of comparison types. The cross-model extension argument is still a \texttt{sorry}.
+\end{lemma}
+
+\begin{theorem}[DLO quantifier elimination]
+\label{thm:dlo-qe}
+\lean{DLOQuantifierElimination.MainTheorem}
+\notready
+\uses{def:dlo-qe,lem:dlo-exists}
+Dense linear orders without endpoints admit quantifier elimination.
+\end{theorem}

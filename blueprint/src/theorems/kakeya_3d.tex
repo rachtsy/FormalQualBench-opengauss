@@ -1,0 +1,32 @@
+\section{Three-dimensional Kakeya theorem}
+
+\begin{definition}[Kakeya set]
+\label{def:kakeya-set}
+\lean{KakeyaTheorem3D.segmentAlong,KakeyaTheorem3D.IsKakeyaSet}
+\leanok
+A Kakeya set in $\mathbb R^3$ contains a unit line segment in every direction.
+\end{definition}
+
+\begin{lemma}[Dimension of a unit segment]
+\label{lem:kakeya-segment}
+\lean{KakeyaTheorem3D.segmentAlong_eq_segment,KakeyaTheorem3D.dimH_segmentAlong_unit}
+\leanok
+\uses{def:kakeya-set}
+A unit segment has Hausdorff dimension $1$.
+\end{lemma}
+
+\begin{lemma}[Wang--Zahl analytic core]
+\label{lem:kakeya-measure}
+\lean{KakeyaTheorem3D.kakeya_hausdorffMeasure_eq_top}
+\notready
+\uses{lem:kakeya-segment}
+For every $d<3$, the $d$-dimensional Hausdorff measure of a Kakeya set is infinite. The range $1\le d<3$ is still a \texttt{sorry}.
+\end{lemma}
+
+\begin{theorem}[Kakeya theorem in $\mathbb R^3$]
+\label{thm:kakeya-3d}
+\lean{KakeyaTheorem3D.MainTheorem}
+\notready
+\uses{lem:kakeya-measure}
+Every Kakeya set in $\mathbb R^3$ has Hausdorff dimension $3$.
+\end{theorem}

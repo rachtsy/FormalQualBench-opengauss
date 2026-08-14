@@ -1,0 +1,30 @@
+\section{Colorful Carath\'eodory theorem}
+
+\begin{lemma}[A nonpositive supporting point]
+\label{lem:cc-inner}
+\lean{ColorfulCaratheodoryTheorem.exists_inner_nonpos}
+\leanok
+If $0\in\operatorname{conv}(S)$ and $v\ne0$, some $s\in S$ satisfies $\langle v,s\rangle\le0$.
+\end{lemma}
+
+\begin{lemma}[Zero coefficient representation]
+\label{lem:cc-zero-coeff}
+\lean{ColorfulCaratheodoryTheorem.exists_zero_coeff}
+\leanok
+A suitable convex representation by $d+1$ points can be replaced by one in which at least one coefficient is zero.
+\end{lemma}
+
+\begin{lemma}[Convex perturbation decreases norm]
+\label{lem:cc-norm-decrease}
+\lean{ColorfulCaratheodoryTheorem.norm_sq_convex_comb,ColorfulCaratheodoryTheorem.alg_identity,ColorfulCaratheodoryTheorem.norm_convex_lt}
+\leanok
+If $z\ne0$ and $\langle z,c\rangle\le0$, then moving a small positive amount from $z$ toward $c$ strictly decreases the squared norm.
+\end{lemma}
+
+\begin{theorem}[Colorful Carath\'eodory]
+\label{thm:colorful-caratheodory}
+\lean{ColorfulCaratheodoryTheorem.MainTheorem}
+\leanok
+\uses{lem:cc-inner,lem:cc-zero-coeff,lem:cc-norm-decrease}
+If each of $d+1$ subsets of $\mathbb R^d$ contains the origin in its convex hull, one can choose one point from each set so that the origin lies in the convex hull of the chosen points.
+\end{theorem}

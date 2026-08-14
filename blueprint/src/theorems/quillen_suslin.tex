@@ -1,0 +1,31 @@
+\section{Quillen--Suslin theorem}
+
+\begin{definition}[Transfer across a ring equivalence]
+\label{def:qs-transfer}
+\lean{QuillenSuslinTheorem.quillenSuslinProperty_transfer}
+\leanok
+The property that finitely generated projective modules are free transfers across a ring equivalence.
+\end{definition}
+
+\begin{theorem}[Polynomial extension step]
+\label{thm:qs-step}
+\lean{QuillenSuslinTheorem.quillenSuslin_polynomial_step}
+\notready
+If all finitely generated projective $R$-modules are free, then the same is true over $R[X]$. The Horrocks--Quillen extension step is still a \texttt{sorry}.
+\end{theorem}
+
+\begin{definition}[Induction on the number of variables]
+\label{def:qs-forall}
+\lean{QuillenSuslinTheorem.quillenSuslin_forall}
+\notready
+\uses{def:qs-transfer,thm:qs-step}
+The theorem for multivariate polynomial rings is assembled by induction on the number of variables.
+\end{definition}
+
+\begin{theorem}[Quillen--Suslin]
+\label{thm:quillen-suslin}
+\lean{QuillenSuslinTheorem.MainTheorem}
+\notready
+\uses{def:qs-forall}
+Every finitely generated projective module over a polynomial ring over a field is free.
+\end{theorem}

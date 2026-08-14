@@ -1,0 +1,69 @@
+\section{Banach--Stone theorem}
+
+\begin{lemma}[Extreme points of the unit ball]
+\label{lem:bs-extreme}
+\lean{BanachStoneTheorem.extremePoint_abs_eq_one}
+\leanok
+An extreme point of the closed unit ball of $C(Y,\mathbb R)$ has absolute value $1$ at every point.
+\end{lemma}
+
+\begin{lemma}[The constant one function is extreme]
+\label{lem:bs-one-extreme}
+\lean{BanachStoneTheorem.one_mem_extremePoints}
+\leanok
+The constant function $1$ is an extreme point of the unit ball.
+\end{lemma}
+
+\begin{lemma}[Image of one under an isometry]
+\label{lem:bs-one-image}
+\lean{BanachStoneTheorem.linearIsometryEquiv_one_abs_eq_one}
+\leanok
+\uses{lem:bs-extreme,lem:bs-one-extreme}
+If $e:C(X,\mathbb R)\simeq C(Y,\mathbb R)$ is a linear isometry, then $|e(1)(y)|=1$ for all $y$.
+\end{lemma}
+
+\begin{lemma}[Positivity criterion]
+\label{lem:bs-positive}
+\lean{BanachStoneTheorem.nonneg_iff_norm_sub}
+\leanok
+Nonnegativity of a continuous real-valued function is characterized by a norm inequality involving the constant function $1$.
+\end{lemma}
+
+\begin{lemma}[Square inequality for positive unital maps]
+\label{lem:bs-square}
+\lean{BanachStoneTheorem.sq_le_of_pos_unital}
+\leanok
+\uses{lem:bs-positive}
+A positive unital linear map between spaces of continuous functions satisfies the required pointwise square inequality.
+\end{lemma}
+
+\begin{lemma}[Multiplicativity after twisting by $e(1)$]
+\label{lem:bs-multiplicative}
+\lean{BanachStoneTheorem.mul_image_mul_of_linearIsometryEquiv}
+\leanok
+\uses{lem:bs-one-image,lem:bs-positive,lem:bs-square}
+After twisting a linear isometry by multiplication with $e(1)$, products are preserved.
+\end{lemma}
+
+\begin{definition}[Induced star algebra equivalence]
+\label{def:bs-star-equiv}
+\lean{BanachStoneTheorem.starAlgEquivOfLinearIsometryEquiv}
+\leanok
+\uses{lem:bs-one-image,lem:bs-multiplicative}
+A linear isometry equivalence $C(X,\mathbb R)\simeq C(Y,\mathbb R)$ induces a star-algebra equivalence.
+\end{definition}
+
+\begin{definition}[Homeomorphism of character spaces]
+\label{def:bs-char-homeo}
+\lean{BanachStoneTheorem.charSpaceHomeoOfStarAlgEquiv}
+\leanok
+A star-algebra equivalence induces a homeomorphism between the corresponding character spaces.
+\end{definition}
+
+\begin{theorem}[Banach--Stone]
+\label{thm:banach-stone}
+\lean{BanachStoneTheorem.MainTheorem}
+\leanok
+\uses{def:bs-star-equiv,def:bs-char-homeo}
+If the real Banach spaces $C(X,\mathbb R)$ and $C(Y,\mathbb R)$ are linearly isometric for compact Hausdorff spaces $X,Y$, then $X$ and $Y$ are homeomorphic.
+\end{theorem}

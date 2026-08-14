@@ -1,0 +1,38 @@
+\section{Runge's theorem}
+
+\begin{lemma}[Approximation of a distant pole]
+\label{lem:runge-far-pole}
+\lean{RungeTheorem.pole_approx_far}
+\leanok
+A Cauchy kernel with pole sufficiently far from a closed ball is uniformly approximated by a truncated geometric-series polynomial.
+\end{lemma}
+
+\begin{lemma}[Power difference estimate]
+\label{lem:runge-powers}
+\lean{RungeTheorem.norm_pow_sub_pow_le}
+\leanok
+The difference $a^n-b^n$ is bounded by the usual geometric-sum estimate.
+\end{lemma}
+
+\begin{lemma}[Transfer and pushing of poles]
+\label{lem:runge-poles}
+\lean{RungeTheorem.pole_transfer,RungeTheorem.pole_push}
+\leanok
+\uses{lem:runge-far-pole,lem:runge-powers}
+Polynomial approximability of a Cauchy kernel transfers to nearby poles; connectedness of the complement then allows the pole to be pushed to infinity.
+\end{lemma}
+
+\begin{lemma}[Rational approximation]
+\label{lem:runge-rational}
+\lean{RungeTheorem.rational_approx}
+\notready
+A holomorphic function on a neighborhood of a compact set can be approximated by a rational function with poles outside the compact set. This Cauchy-integral step remains a \texttt{sorry}.
+\end{lemma}
+
+\begin{theorem}[Runge]
+\label{thm:runge}
+\lean{RungeTheorem.MainTheorem}
+\notready
+\uses{lem:runge-poles,lem:runge-rational}
+If $K\subset U\subset\mathbb C$, $K$ is compact with connected complement, and $f$ is holomorphic on $U$, then $f$ is uniformly approximable on $K$ by polynomials.
+\end{theorem}

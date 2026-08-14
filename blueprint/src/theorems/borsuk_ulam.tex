@@ -1,0 +1,32 @@
+\section{Borsuk--Ulam theorem}
+
+\begin{definition}[Sphere and antipodal map]
+\label{def:bu-antipode}
+\lean{BorsukUlamTheorem.UnitSphere,BorsukUlamTheorem.antipode}
+\leanok
+Let $S^n\subset\mathbb R^{n+1}$ be the unit sphere and let $a(x)=-x$ be its antipodal map.
+\end{definition}
+
+\begin{lemma}[Antipodal map properties]
+\label{lem:bu-antipode}
+\lean{BorsukUlamTheorem.continuous_antipode,BorsukUlamTheorem.antipode_antipode}
+\leanok
+\uses{def:bu-antipode}
+The antipodal map is continuous and involutive.
+\end{lemma}
+
+\begin{lemma}[Odd maps on connected spheres]
+\label{lem:bu-odd-zero}
+\lean{BorsukUlamTheorem.odd_map_zero_of_connected}
+\leanok
+\uses{lem:bu-antipode}
+A continuous odd real-valued function on a connected positive-dimensional sphere has a zero.
+\end{lemma}
+
+\begin{theorem}[Borsuk--Ulam]
+\label{thm:borsuk-ulam}
+\lean{BorsukUlamTheorem.MainTheorem}
+\notready
+\uses{lem:bu-antipode,lem:bu-odd-zero}
+Every continuous map $S^n\to\mathbb R^n$ identifies a pair of antipodal points. The Lean file proves the low-dimensional cases; the case $n\ge2$ still contains a \texttt{sorry}.
+\end{theorem}

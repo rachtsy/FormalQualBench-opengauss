@@ -1,0 +1,62 @@
+\section{Von Neumann double commutant theorem}
+
+\begin{definition}[Diagonal amplification]
+\label{def:vndc-diag}
+\lean{VonNeumannDoubleCommutantTheorem.diagCLM}
+\leanok
+An operator on $H$ is amplified diagonally to a finite Hilbert direct sum of copies of $H$.
+\end{definition}
+
+\begin{lemma}[Diagonal identities]
+\label{lem:vndc-diag}
+\lean{VonNeumannDoubleCommutantTheorem.diagCLM_single,VonNeumannDoubleCommutantTheorem.adjoint_diagCLM,VonNeumannDoubleCommutantTheorem.ofLp_sum}
+\leanok
+\uses{def:vndc-diag}
+The diagonal amplification behaves correctly on coordinate vectors, adjoints, and finite sums.
+\end{lemma}
+
+\begin{lemma}[Bicommutant commutation after amplification]
+\label{lem:vndc-bicommutant}
+\lean{VonNeumannDoubleCommutantTheorem.diagCLM_bicommutant}
+\leanok
+\uses{lem:vndc-diag}
+An operator in the bicommutant commutes with every amplified operator that commutes with the amplified algebra.
+\end{lemma}
+
+\begin{definition}[Evaluation along a finite tuple]
+\label{def:vndc-eval}
+\lean{VonNeumannDoubleCommutantTheorem.diagApply}
+\leanok
+Evaluation of a diagonal amplification at a fixed finite tuple is a linear map.
+\end{definition}
+
+\begin{lemma}[Finite-vector approximation]
+\label{lem:vndc-finite}
+\lean{VonNeumannDoubleCommutantTheorem.mem_closure_piLp}
+\leanok
+\uses{lem:vndc-bicommutant,def:vndc-eval}
+A bicommutant element can be approximated simultaneously on finitely many vectors by elements of the algebra.
+\end{lemma}
+
+\begin{lemma}[Weak-operator closure]
+\label{lem:vndc-wot}
+\lean{VonNeumannDoubleCommutantTheorem.mem_closure_wot}
+\leanok
+\uses{lem:vndc-finite}
+Finite-vector approximation implies membership in the weak-operator closure.
+\end{lemma}
+
+\begin{lemma}[Centralizers are weak-operator closed]
+\label{lem:vndc-centralizer}
+\lean{VonNeumannDoubleCommutantTheorem.isClosed_wot_centralizer}
+\leanok
+The image of a centralizer is closed in the weak operator topology.
+\end{lemma}
+
+\begin{theorem}[Von Neumann double commutant theorem]
+\label{thm:von-neumann-double-commutant}
+\lean{VonNeumannDoubleCommutantTheorem.MainTheorem}
+\leanok
+\uses{lem:vndc-wot,lem:vndc-centralizer}
+A unital star subalgebra of $B(H)$ is weak-operator closed if and only if it equals its bicommutant.
+\end{theorem}

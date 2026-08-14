@@ -1,0 +1,39 @@
+\section{Ternary Goldbach theorem}
+
+\begin{definition}[Computed candidate triple]
+\label{def:tg-triple}
+\lean{TernaryGoldbachTheorem.goldbachTriple}
+\leanok
+A computable candidate triple is used to discharge bounded numerical ranges.
+\end{definition}
+
+\begin{lemma}[Verified finite ranges]
+\label{lem:tg-small}
+\lean{TernaryGoldbachTheorem.smallCases,TernaryGoldbachTheorem.mediumCases}
+\leanok
+\uses{def:tg-triple}
+The theorem is verified computationally for odd integers up to $10000$.
+\end{lemma}
+
+\begin{lemma}[Binary Goldbach input]
+\label{lem:tg-binary}
+\lean{TernaryGoldbachTheorem.evenGoldbachForLarge}
+\notready
+Every sufficiently large even number is the sum of two primes. This auxiliary statement is a \texttt{sorry}.
+\end{lemma}
+
+\begin{lemma}[Large odd integers]
+\label{lem:tg-large}
+\lean{TernaryGoldbachTheorem.largeCases}
+\notready
+\uses{lem:tg-binary}
+Large odd integers are written as $3$ plus two primes.
+\end{lemma}
+
+\begin{theorem}[Ternary Goldbach]
+\label{thm:ternary-goldbach}
+\lean{TernaryGoldbachTheorem.MainTheorem}
+\notready
+\uses{lem:tg-small,lem:tg-large}
+Every odd integer greater than $5$ is the sum of three primes.
+\end{theorem}

@@ -1,0 +1,23 @@
+\section{Erd\H{o}s discrepancy problem}
+
+\begin{definition}[Sign sequence]
+\label{def:edp-sign}
+\lean{ErdosDiscrepancyProblem.IsSign}
+\leanok
+A value is a sign when it equals $1$ or $-1$.
+\end{definition}
+
+\begin{definition}[Unbounded discrepancy]
+\label{def:edp-unbounded}
+\lean{ErdosDiscrepancyProblem.DiscrepancyUnbounded}
+\leanok
+Every sign sequence has arbitrarily large discrepancy along a homogeneous arithmetic progression.
+\end{definition}
+
+\begin{theorem}[Erd\H{o}s discrepancy theorem]
+\label{thm:erdos-discrepancy}
+\lean{ErdosDiscrepancyProblem.MainTheorem}
+\notready
+\uses{def:edp-unbounded}
+The discrepancy of every $\{\pm1\}$ sequence is unbounded.
+\end{theorem}

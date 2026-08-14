@@ -1,0 +1,31 @@
+\section{Hilbert's seventeenth problem}
+
+\begin{definition}[Globally nonnegative polynomial]
+\label{def:h17-nonnegative}
+\lean{Hilbert17thProblem.IsGloballyNonnegative}
+\leanok
+A real multivariate polynomial is globally nonnegative if it evaluates to a nonnegative real number at every point.
+\end{definition}
+
+\begin{lemma}[Finite sum-of-squares witness]
+\label{lem:h17-finite-sos}
+\lean{Hilbert17thProblem.isSumSq_exists_fin_sum_sq}
+\leanok
+An element satisfying the inductive predicate \texttt{IsSumSq} admits an explicit finite sum-of-squares representation.
+\end{lemma}
+
+\begin{lemma}[Artin's core theorem]
+\label{lem:h17-artin}
+\lean{Hilbert17thProblem.artin_isSumSq}
+\notready
+\uses{def:h17-nonnegative}
+A globally nonnegative polynomial becomes a sum of squares in its fraction field. This deep Artin--Lang step is still a \texttt{sorry}.
+\end{lemma}
+
+\begin{theorem}[Hilbert's seventeenth problem]
+\label{thm:hilbert-17}
+\lean{Hilbert17thProblem.MainTheorem}
+\notready
+\uses{lem:h17-artin,lem:h17-finite-sos}
+Every globally nonnegative real polynomial is a finite sum of squares of rational functions.
+\end{theorem}

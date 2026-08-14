@@ -1,0 +1,32 @@
+\section{Pontryagin duality}
+
+\begin{definition}[Canonical evaluation map]
+\label{def:pd-eval}
+\lean{PontryaginDuality.IsEvaluationIso,PontryaginDuality.evalAt,PontryaginDuality.evalCMH}
+\leanok
+The canonical evaluation homomorphism sends $a\in A$ to the character $\chi\mapsto\chi(a)$ on the Pontryagin dual.
+\end{definition}
+
+\begin{theorem}[Evaluation is bijective]
+\label{thm:pd-bijective}
+\lean{PontryaginDuality.evalCMH_bijective}
+\notready
+\uses{def:pd-eval}
+For a locally compact Hausdorff abelian group, the evaluation map to the double dual is bijective. The required separation and Fourier-inversion ingredients are still a \texttt{sorry}.
+\end{theorem}
+
+\begin{theorem}[Evaluation is open]
+\label{thm:pd-open}
+\lean{PontryaginDuality.evalCMH_isOpenMap}
+\notready
+\uses{def:pd-eval}
+The evaluation map is open; this step is also still a \texttt{sorry}.
+\end{theorem}
+
+\begin{theorem}[Pontryagin duality]
+\label{thm:pontryagin-duality}
+\lean{PontryaginDuality.MainTheorem}
+\notready
+\uses{thm:pd-bijective,thm:pd-open}
+Every locally compact Hausdorff abelian group is canonically topologically isomorphic to its double Pontryagin dual.
+\end{theorem}

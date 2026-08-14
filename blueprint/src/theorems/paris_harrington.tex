@@ -1,0 +1,37 @@
+\section{Paris--Harrington principle}
+
+\begin{definition}[Relatively large homogeneous set]
+\label{def:ph-large}
+\lean{ParisHarringtonPrinciple.RelativelyLarge,ParisHarringtonPrinciple.IsHomogeneous}
+\leanok
+The blueprint uses the standard notions of a relatively large subset of $[1,N]$ and a homogeneous set for a coloring of $k$-subsets.
+\end{definition}
+
+\begin{theorem}[Infinite Ramsey theorem]
+\label{thm:ph-infinite-ramsey}
+\lean{ParisHarringtonPrinciple.infiniteRamsey}
+\leanok
+Every finite coloring of the $k$-subsets of an infinite set has an infinite homogeneous subset.
+\end{theorem}
+
+\begin{lemma}[Ultrafilter fiber]
+\label{lem:ph-ultrafilter}
+\lean{ParisHarringtonPrinciple.ultrafilter_fiber}
+\leanok
+For a map into a finite color set, some color fiber belongs to any ultrafilter.
+\end{lemma}
+
+\begin{lemma}[Finite subset of prescribed cardinality]
+\label{lem:ph-finset}
+\lean{ParisHarringtonPrinciple.exists_finset_card_eq}
+\leanok
+An infinite subset of $\mathbb N$ contains a finite subset of every prescribed finite cardinality.
+\end{lemma}
+
+\begin{theorem}[Paris--Harrington]
+\label{thm:paris-harrington}
+\lean{ParisHarringtonPrinciple.MainTheorem}
+\leanok
+\uses{def:ph-large,thm:ph-infinite-ramsey,lem:ph-ultrafilter,lem:ph-finset}
+For $0<r$ and $k\le m$, there is an $N$ such that every $r$-coloring of the $k$-subsets of $[1,N]$ has a relatively large homogeneous set.
+\end{theorem}
