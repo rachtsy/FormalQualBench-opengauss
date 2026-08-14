@@ -12,13 +12,13 @@ abbrev UnitSphere (n : ℕ) : Type :=
 def antipode {n : ℕ} : UnitSphere n → UnitSphere n :=
   fun x => ⟨-x.1, by simpa [norm_neg] using x.2⟩
 
-private lemma continuous_antipode {n : ℕ} : Continuous (@antipode n) :=
+lemma continuous_antipode {n : ℕ} : Continuous (@antipode n) :=
   Continuous.subtype_mk continuous_subtype_val.neg _
 
-private lemma antipode_antipode {n : ℕ} (x : UnitSphere n) : antipode (antipode x) = x := by
+lemma antipode_antipode {n : ℕ} (x : UnitSphere n) : antipode (antipode x) = x := by
   ext i; simp [antipode]
 
-private instance unitSphereConnected (n : ℕ) : ConnectedSpace (UnitSphere (n + 1)) := by
+instance unitSphereConnected (n : ℕ) : ConnectedSpace (UnitSphere (n + 1)) := by
   have hrank : 1 < Module.rank ℝ (EuclideanSpace ℝ (Fin (n + 2))) := by
     calc (1 : Cardinal) < ↑(n + 2 : ℕ) := by exact_mod_cast Nat.one_lt_succ_succ n
       _ = ↑(Module.finrank ℝ (EuclideanSpace ℝ (Fin (n + 2)))) := by
@@ -36,7 +36,7 @@ private instance unitSphereConnected (n : ℕ) : ConnectedSpace (UnitSphere (n +
         exact hconn.isPreconnected_univ
       toNonempty := e.surjective.nonempty }
 
-private lemma odd_map_zero_of_connected {n : ℕ} (g : UnitSphere (n + 1) → ℝ)
+lemma odd_map_zero_of_connected {n : ℕ} (g : UnitSphere (n + 1) → ℝ)
     (hg : Continuous g) (hodd : ∀ x, g (antipode x) = -g x) :
     ∃ x : UnitSphere (n + 1), g x = 0 := by
   obtain ⟨a⟩ : Nonempty (UnitSphere (n + 1)) := inferInstance

@@ -18,7 +18,7 @@ variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] [CompleteSpace E
 
 omit [NormedSpace ℝ E] [CompleteSpace E] in
 /-- The bump function `x ↦ max(0, ε − ‖x − y‖)` is continuous. -/
-private lemma bump_continuous (y : E) (ε : ℝ) :
+lemma bump_continuous (y : E) (ε : ℝ) :
     Continuous (fun x : E => max (0 : ℝ) (ε - ‖x - y‖)) :=
   continuous_const.max
     (continuous_const.sub (continuous_norm.comp (continuous_id.sub continuous_const)))
@@ -26,7 +26,7 @@ private lemma bump_continuous (y : E) (ε : ℝ) :
 omit [NormedSpace ℝ E] [CompleteSpace E] in
 /-- The sum of bump functions `∑ max(0, ε − ‖x − yᵢ‖)` is positive when `x` is covered
 by at least one `ε`-ball centered at a point in `F`. -/
-private lemma sum_bump_pos (F : Finset E) (ε : ℝ) (x : E)
+lemma sum_bump_pos (F : Finset E) (ε : ℝ) (x : E)
     (hcover : x ∈ ⋃ y ∈ (F : Set E), Metric.ball y ε) :
     0 < ∑ y ∈ F, max (0 : ℝ) (ε - ‖x - y‖) := by
   rw [Set.mem_iUnion₂] at hcover
@@ -41,7 +41,7 @@ omit [CompleteSpace E] in
 /-- The center of mass with bump weights approximates `x` to within `ε`:
 the center of mass is a convex combination of centers `yᵢ` with `‖x − yᵢ‖ < ε`,
 hence lies in the convex (and thus open) ball `B(x, ε)`. -/
-private lemma centerMass_approx (F : Finset E) (x : E) (ε : ℝ)
+lemma centerMass_approx (F : Finset E) (x : E) (ε : ℝ)
     (hW : 0 < ∑ y ∈ F, max (0 : ℝ) (ε - ‖x - y‖)) :
     ‖F.centerMass (fun y => max (0 : ℝ) (ε - ‖x - y‖)) id - x‖ < ε := by
   set w : E → ℝ := fun y => max (0 : ℝ) (ε - ‖x - y‖)

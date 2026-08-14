@@ -21,7 +21,7 @@ def IsHomogeneous {α β : Type*} [DecidableEq α] (k : ℕ) (H : Finset α)
     (c : Finset α → β) : Prop :=
   ∀ s ∈ H.powersetCard k, ∀ t ∈ H.powersetCard k, c s = c t
 
-private theorem infiniteRamsey (k : ℕ) :
+theorem infiniteRamsey (k : ℕ) :
     ∀ (r : ℕ) (_ : 0 < r) (c : Finset ℕ → Fin r) (S : Set ℕ) (_ : S.Infinite),
     ∃ (T : Set ℕ) (d : Fin r), T ⊆ S ∧ T.Infinite ∧
       ∀ A : Finset ℕ, A.card = k → (↑A : Set ℕ) ⊆ T → c A = d := by
@@ -97,7 +97,7 @@ private theorem infiniteRamsey (k : ℕ) :
       rwa [show d_fn (seq n₁).1 (seq n₁).2 = color n₁ from rfl,
            show color n₁ = d_star from hn₁] at h_color
 
-private lemma ultrafilter_fiber {r : ℕ} (U : Ultrafilter ℕ) (f : ℕ → Fin r) :
+lemma ultrafilter_fiber {r : ℕ} (U : Ultrafilter ℕ) (f : ℕ → Fin r) :
     ∃ d : Fin r, f ⁻¹' {d} ∈ U.1 := by
   by_contra h; push_neg at h
   have hmem : (⋂ d : Fin r, (f ⁻¹' {d})ᶜ) ∈ U.1 :=
@@ -107,7 +107,7 @@ private lemma ultrafilter_fiber {r : ℕ} (U : Ultrafilter ℕ) (f : ℕ → Fin
   rw [hempty] at hmem
   exact U.neBot.ne (Filter.empty_mem_iff_bot.mp hmem)
 
-private lemma exists_finset_card_eq (S : Set ℕ) (hS : S.Infinite) (n : ℕ) :
+lemma exists_finset_card_eq (S : Set ℕ) (hS : S.Infinite) (n : ℕ) :
     ∃ H : Finset ℕ, (↑H : Set ℕ) ⊆ S ∧ H.card = n := by
   induction n with
   | zero => exact ⟨∅, by simp, by simp⟩

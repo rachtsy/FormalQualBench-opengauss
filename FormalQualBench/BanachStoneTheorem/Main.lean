@@ -111,7 +111,7 @@ lemma linearIsometryEquiv_one_abs_eq_one {X Y : Type*}
 
 /-! ## Helper lemmas for multiplicativity -/
 
-private lemma nonneg_iff_norm_sub {A : Type*} [TopologicalSpace A] [CompactSpace A]
+lemma nonneg_iff_norm_sub {A : Type*} [TopologicalSpace A] [CompactSpace A]
     [T2Space A] (f : C(A, ℝ)) :
     0 ≤ f ↔ ‖f - ‖f‖ • (1 : C(A, ℝ))‖ ≤ ‖f‖ := by
   constructor
@@ -135,7 +135,7 @@ private lemma nonneg_iff_norm_sub {A : Type*} [TopologicalSpace A] [CompactSpace
     simp only [ContinuousMap.zero_apply]; linarith [(abs_le.mp h2).1]
 
 set_option maxHeartbeats 400000 in
-private lemma sq_le_of_pos_unital
+lemma sq_le_of_pos_unital
     {A B : Type*} [TopologicalSpace A] [CompactSpace A] [T2Space A]
     [TopologicalSpace B] [CompactSpace B] [T2Space B]
     (S : C(A, ℝ) →ₗ[ℝ] C(B, ℝ)) (hunit : S 1 = 1)

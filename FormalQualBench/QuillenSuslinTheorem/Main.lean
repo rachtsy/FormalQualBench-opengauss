@@ -20,7 +20,7 @@ universe u v
 
 section Transfer
 
-private noncomputable def quillenSuslinProperty_transfer
+noncomputable def quillenSuslinProperty_transfer
     {R S : Type u} [CommRing R] [CommRing S]
     (e : R ≃+* S) {P : Type v} [AddCommGroup P] [Module S P]
     [Module.Finite S P] [Module.Projective S P]
@@ -64,7 +64,7 @@ section InductiveStep
 free, then the same holds for `Polynomial R`. This combines Quillen's local-global principle for
 projective modules with Horrocks' theorem (projective modules over `R[X]` with `R` local are
 free). Neither result is currently available in Mathlib. -/
-private theorem quillenSuslin_polynomial_step (R : Type u)
+theorem quillenSuslin_polynomial_step (R : Type u)
     [CommRing R] [IsNoetherianRing R]
     (hR : ∀ (M : Type v) [AddCommGroup M] [Module R M] [Module.Finite R M]
       [Module.Projective R M], Module.Free R M)
@@ -89,7 +89,7 @@ end InductiveStep
 
 section MainProof
 
-private noncomputable def quillenSuslin_forall (k : Type u) [Field k] :
+noncomputable def quillenSuslin_forall (k : Type u) [Field k] :
     ∀ (n : ℕ) (P : Type v) [AddCommGroup P] [Module (MvPolynomial (Fin n) k) P]
       [Module.Finite (MvPolynomial (Fin n) k) P]
       [Module.Projective (MvPolynomial (Fin n) k) P],

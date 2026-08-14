@@ -160,7 +160,7 @@ lemma exists_zero_coeff
     simp only [hβ_def, ht_def]
     field_simp; ring
 
-private lemma norm_sq_convex_comb (z c : EuclideanSpace ℝ (Fin d)) (ε : ℝ) :
+lemma norm_sq_convex_comb (z c : EuclideanSpace ℝ (Fin d)) (ε : ℝ) :
     ‖(1 - ε) • z + ε • c‖ ^ 2 =
     (1 - ε) ^ 2 * ‖z‖ ^ 2 + 2 * ε * (1 - ε) * ⟪z, c⟫_ℝ + ε ^ 2 * ‖c‖ ^ 2 := by
   rw [← @real_inner_self_eq_norm_sq (EuclideanSpace ℝ (Fin d)) _ _ ((1 - ε) • z + ε • c)]
@@ -168,14 +168,14 @@ private lemma norm_sq_convex_comb (z c : EuclideanSpace ℝ (Fin d)) (ε : ℝ) 
     real_inner_self_eq_norm_sq, real_inner_comm c z, RCLike.conj_to_real]
   ring
 
-private lemma alg_identity (A B C D : ℝ) (hD : D ≠ 0) :
+lemma alg_identity (A B C D : ℝ) (hD : D ≠ 0) :
     let ε := (A - B) / (2 * D)
     (1 - ε) ^ 2 * A + 2 * ε * (1 - ε) * B + ε ^ 2 * C - A =
     -(3 * (A - B) ^ 2 / (4 * D)) +
       (A - 2 * B + C - D) * (A - B) ^ 2 / (4 * D ^ 2) := by
   simp only; field_simp; ring
 
-private lemma norm_convex_lt (z c : EuclideanSpace ℝ (Fin d))
+lemma norm_convex_lt (z c : EuclideanSpace ℝ (Fin d))
     (hz : z ≠ 0) (hc : ⟪z, c⟫_ℝ ≤ 0) :
     ∃ ε : ℝ, 0 < ε ∧ ε < 1 ∧ ‖(1 - ε) • z + ε • c‖ ^ 2 < ‖z‖ ^ 2 := by
   have hzn2 : 0 < ‖z‖ ^ 2 := by positivity

@@ -7,7 +7,7 @@ namespace RungeTheorem
 open scoped Topology
 open Complex Polynomial Finset Filter MeasureTheory
 
-private lemma pole_approx_far {R : ℝ} (hR : 0 ≤ R) {a : ℂ} (ha : R < ‖a‖) :
+lemma pole_approx_far {R : ℝ} (hR : 0 ≤ R) {a : ℂ} (ha : R < ‖a‖) :
     ∀ ε > 0, ∃ p : Polynomial ℂ,
       ∀ z : ℂ, ‖z‖ ≤ R → ‖Polynomial.eval z p - (a - z)⁻¹‖ < ε := by
   intro ε hε
@@ -50,7 +50,7 @@ private lemma pole_approx_far {R : ℝ} (hR : 0 ≤ R) {a : ℂ} (ha : R < ‖a�
       _ < ε := by rw [div_lt_iff₀ hdiff]; linarith
 
 -- Helper: ‖a^n - b^n‖ ≤ n * M^(n-1) * ‖a - b‖ where M = max ‖a‖ ‖b‖
-private lemma norm_pow_sub_pow_le (a b : ℂ) (n : ℕ) :
+lemma norm_pow_sub_pow_le (a b : ℂ) (n : ℕ) :
     ‖a ^ n - b ^ n‖ ≤ ↑n * (max ‖a‖ ‖b‖) ^ (n - 1) * ‖a - b‖ := by
   rw [← geom_sum₂_mul]
   calc ‖(∑ i ∈ range n, a ^ i * b ^ (n - 1 - i)) * (a - b)‖
@@ -72,7 +72,7 @@ private lemma norm_pow_sub_pow_le (a b : ℂ) (n : ℕ) :
 
 -- Helper: pole transfer using geometric series.
 -- If (b-·)⁻¹ is poly-approx on K and dist(c,b) < infDist(b,K), then (c-·)⁻¹ is poly-approx on K.
-private lemma pole_transfer {K : Set ℂ} (hK : IsCompact K) (hKne : K.Nonempty) {b : ℂ}
+lemma pole_transfer {K : Set ℂ} (hK : IsCompact K) (hKne : K.Nonempty) {b : ℂ}
     (hb : b ∉ K) (hbapprox : ∀ ε > 0, ∃ p : Polynomial ℂ, ∀ z ∈ K, ‖eval z p - (b - z)⁻¹‖ < ε)
     {c : ℂ} (hcb : dist c b < Metric.infDist b K) :
     ∀ ε > 0, ∃ p : Polynomial ℂ, ∀ z ∈ K, ‖eval z p - (c - z)⁻¹‖ < ε := by
@@ -166,7 +166,7 @@ private lemma pole_transfer {K : Set ℂ} (hK : IsCompact K) (hKne : K.Nonempty)
 /-- **Pole pushing**: If `Kᶜ` is connected and `a ∉ K`, then `z ↦ (a - z)⁻¹` can be uniformly
 approximated by polynomials on `K`. Uses connectedness to "move" the pole to infinity, then
 applies `pole_approx_far`. -/
-private lemma pole_push {K : Set ℂ} (hK : IsCompact K) (hKc : IsConnected Kᶜ)
+lemma pole_push {K : Set ℂ} (hK : IsCompact K) (hKc : IsConnected Kᶜ)
     {a : ℂ} (ha : a ∉ K) :
     ∀ ε > 0, ∃ p : Polynomial ℂ, ∀ z ∈ K, ‖Polynomial.eval z p - (a - z)⁻¹‖ < ε := by
   -- Trivial case: K is empty
@@ -237,7 +237,7 @@ private lemma pole_push {K : Set ℂ} (hK : IsCompact K) (hKc : IsConnected Kᶜ
 
 -- Rational approximation via Cauchy integral formula: f can be approximated by rational functions
 -- with poles outside K. This is the analytic core of Runge's theorem.
-private lemma rational_approx {U K : Set ℂ} {f : ℂ → ℂ} (hU : IsOpen U) (hK : IsCompact K)
+lemma rational_approx {U K : Set ℂ} {f : ℂ → ℂ} (hU : IsOpen U) (hK : IsCompact K)
     (hKU : K ⊆ U) (hf : DifferentiableOn ℂ f U) :
     ∀ ε > 0, ∃ (n : ℕ) (a : Fin n → ℂ) (c : Fin n → ℂ),
       (∀ i, a i ∉ K) ∧

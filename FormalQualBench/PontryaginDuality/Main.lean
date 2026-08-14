@@ -11,7 +11,7 @@ def IsEvaluationIso (A : Type*) [CommGroup A] [TopologicalSpace A] [IsTopologica
     (e : A ≃ₜ* PontryaginDual (PontryaginDual A)) : Prop :=
   ∀ a (χ : PontryaginDual A), e a χ = χ a
 
-private noncomputable def evalAt (A : Type*) [CommGroup A] [TopologicalSpace A]
+noncomputable def evalAt (A : Type*) [CommGroup A] [TopologicalSpace A]
     (a : A) : PontryaginDual (PontryaginDual A) where
   toFun := fun χ => χ a
   map_one' := map_one (M := A) (N := Circle) (1 : A →ₜ* Circle)
@@ -19,7 +19,7 @@ private noncomputable def evalAt (A : Type*) [CommGroup A] [TopologicalSpace A]
   continuous_toFun :=
     (inferInstance : ContinuousEvalConst (A →ₜ* Circle) A Circle).continuous_eval_const a
 
-private noncomputable def evalCMH (A : Type*) [CommGroup A] [TopologicalSpace A]
+noncomputable def evalCMH (A : Type*) [CommGroup A] [TopologicalSpace A]
     [LocallyCompactSpace A] : A →ₜ* PontryaginDual (PontryaginDual A) where
   toFun := evalAt A
   map_one' := by
@@ -36,7 +36,7 @@ private noncomputable def evalCMH (A : Type*) [CommGroup A] [TopologicalSpace A]
 -- surjectivity (every continuous character on the dual arises from evaluation) follows from
 -- Fourier inversion on LCA groups.  Neither ingredient is yet available in Mathlib for
 -- general locally compact abelian groups.
-private theorem evalCMH_bijective (A : Type*) [CommGroup A] [TopologicalSpace A]
+theorem evalCMH_bijective (A : Type*) [CommGroup A] [TopologicalSpace A]
     [IsTopologicalGroup A] [LocallyCompactSpace A] [T2Space A] :
     Function.Bijective (evalCMH A) := by
   sorry
@@ -44,12 +44,12 @@ private theorem evalCMH_bijective (A : Type*) [CommGroup A] [TopologicalSpace A]
 -- The evaluation map is an open map: for a continuous bijective group homomorphism between
 -- locally compact Hausdorff groups this follows from the open mapping theorem (which in
 -- Mathlib requires sigma-compactness of the domain, a condition not present in our hypotheses).
-private theorem evalCMH_isOpenMap (A : Type*) [CommGroup A] [TopologicalSpace A]
+theorem evalCMH_isOpenMap (A : Type*) [CommGroup A] [TopologicalSpace A]
     [IsTopologicalGroup A] [LocallyCompactSpace A] [T2Space A] :
     IsOpenMap (evalCMH A) := by
   sorry
 
-private theorem evalCMH_isHomeomorph (A : Type*) [CommGroup A] [TopologicalSpace A]
+theorem evalCMH_isHomeomorph (A : Type*) [CommGroup A] [TopologicalSpace A]
     [IsTopologicalGroup A] [LocallyCompactSpace A] [T2Space A] :
     IsHomeomorph (evalCMH A) :=
   IsHomeomorph.mk (evalCMH A).continuous (evalCMH_isOpenMap A) (evalCMH_bijective A)

@@ -3,7 +3,7 @@ import Mathlib.Tactic.IntervalCases
 
 namespace TernaryGoldbachTheorem
 
-private def goldbachTriple (n : ℕ) : ℕ × ℕ × ℕ :=
+def goldbachTriple (n : ℕ) : ℕ × ℕ × ℕ :=
   let m := n - 3
   if (m - 2).Prime then (3, 2, m - 2)
   else
@@ -16,7 +16,7 @@ private def goldbachTriple (n : ℕ) : ℕ × ℕ × ℕ :=
 set_option linter.style.nativeDecide false in
 set_option linter.style.maxHeartbeats false in
 set_option maxHeartbeats 200000000 in
-private lemma smallCases (n : ℕ) (hodd : n % 2 = 1) (hgt : 5 < n) (hle : n ≤ 5000) :
+lemma smallCases (n : ℕ) (hodd : n % 2 = 1) (hgt : 5 < n) (hle : n ≤ 5000) :
     ∃ p q r : ℕ, p.Prime ∧ q.Prime ∧ r.Prime ∧ n = p + q + r := by
   refine ⟨(goldbachTriple n).1, (goldbachTriple n).2.1, (goldbachTriple n).2.2, ?_⟩
   interval_cases n <;> first | omega | native_decide
@@ -24,18 +24,18 @@ private lemma smallCases (n : ℕ) (hodd : n % 2 = 1) (hgt : 5 < n) (hle : n ≤
 set_option linter.style.nativeDecide false in
 set_option linter.style.maxHeartbeats false in
 set_option maxHeartbeats 800000000 in
-private lemma mediumCases (n : ℕ) (hodd : n % 2 = 1) (hgt : 5000 < n) (hle : n ≤ 10000) :
+lemma mediumCases (n : ℕ) (hodd : n % 2 = 1) (hgt : 5000 < n) (hle : n ≤ 10000) :
     ∃ p q r : ℕ, p.Prime ∧ q.Prime ∧ r.Prime ∧ n = p + q + r := by
   refine ⟨(goldbachTriple n).1, (goldbachTriple n).2.1, (goldbachTriple n).2.2, ?_⟩
   interval_cases n <;> first | omega | native_decide
 
 /-- Goldbach's binary conjecture for even numbers > 4: every even n > 4 is the sum of two primes.
 This deep result of analytic number theory is not currently available in Mathlib. -/
-private lemma evenGoldbachForLarge (n : ℕ) (heven : n % 2 = 0) (hgt : 4 < n) :
+lemma evenGoldbachForLarge (n : ℕ) (heven : n % 2 = 0) (hgt : 4 < n) :
     ∃ p q, Nat.Prime p ∧ Nat.Prime q ∧ n = p + q := by
   sorry
 
-private lemma largeCases (n : ℕ) (hodd : n % 2 = 1) (hgt : 10000 < n) :
+lemma largeCases (n : ℕ) (hodd : n % 2 = 1) (hgt : 10000 < n) :
     ∃ p q r : ℕ, p.Prime ∧ q.Prime ∧ r.Prime ∧ n = p + q + r := by
   obtain ⟨p, q, hp, hq, hpq⟩ := evenGoldbachForLarge (n - 3) (by omega) (by omega)
   exact ⟨3, p, q, by decide, hp, hq, by omega⟩

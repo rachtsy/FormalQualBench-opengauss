@@ -14,22 +14,22 @@ open scoped Topology InnerProductSpace
 
 variable {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℂ H] [CompleteSpace H]
 
-private noncomputable def diagCLM (n : ℕ) (s : H →L[ℂ] H) :
+noncomputable def diagCLM (n : ℕ) (s : H →L[ℂ] H) :
     PiLp 2 (fun _ : Fin n => H) →L[ℂ] PiLp 2 (fun _ : Fin n => H) :=
   (PiLp.continuousLinearEquiv 2 ℂ (fun _ : Fin n => H)).symm.toContinuousLinearMap.comp
     (ContinuousLinearMap.pi (fun i => s.comp (PiLp.proj 2 _ i)))
 
-private lemma diagCLM_single (n : ℕ) (s : H →L[ℂ] H) (k : Fin n) (w : H) :
+lemma diagCLM_single (n : ℕ) (s : H →L[ℂ] H) (k : Fin n) (w : H) :
     diagCLM n s (WithLp.toLp 2 (Pi.single k w)) = WithLp.toLp 2 (Pi.single k (s w)) := by
   ext j; simp [diagCLM, Pi.single, Function.update, PiLp.proj]; split <;> simp
 
-private lemma adjoint_diagCLM (n : ℕ) (s : H →L[ℂ] H) :
+lemma adjoint_diagCLM (n : ℕ) (s : H →L[ℂ] H) :
     ContinuousLinearMap.adjoint (diagCLM n s) = diagCLM n (ContinuousLinearMap.adjoint s) := by
   rw [eq_comm, ContinuousLinearMap.eq_adjoint_iff]
   intro v w; simp only [PiLp.inner_apply]; congr 1; ext i
   exact ContinuousLinearMap.adjoint_inner_left s (w.ofLp i) (v.ofLp i)
 
-private lemma ofLp_sum {n : ℕ} {ι : Type*} (s : Finset ι)
+lemma ofLp_sum {n : ℕ} {ι : Type*} (s : Finset ι)
     (f : ι → PiLp 2 (fun _ : Fin n => H)) (j : Fin n) :
     (∑ k ∈ s, f k).ofLp j = ∑ k ∈ s, (f k).ofLp j := by
   induction s using Finset.cons_induction with
@@ -37,7 +37,7 @@ private lemma ofLp_sum {n : ℕ} {ι : Type*} (s : Finset ι)
   | cons a s ha ih => simp [Finset.sum_cons, ih]
 
 set_option maxHeartbeats 400000 in
-private lemma diagCLM_bicommutant (n : ℕ) (S : StarSubalgebra ℂ (H →L[ℂ] H))
+lemma diagCLM_bicommutant (n : ℕ) (S : StarSubalgebra ℂ (H →L[ℂ] H))
     (T : H →L[ℂ] H) (hT : T ∈ (S : Set (H →L[ℂ] H)).centralizer.centralizer)
     (M : PiLp 2 (fun _ : Fin n => H) →L[ℂ] PiLp 2 (fun _ : Fin n => H))
     (hM : ∀ s ∈ (S : Set (H →L[ℂ] H)), diagCLM n s * M = M * diagCLM n s) :
@@ -71,14 +71,14 @@ private lemma diagCLM_bicommutant (n : ℕ) (S : StarSubalgebra ℂ (H →L[ℂ]
   rw [ofLp_sum, ofLp_sum]
   exact Finset.sum_congr rfl (fun k _ => hTentry j k (v.ofLp k))
 
-private noncomputable def diagApply (n : ℕ) (v : PiLp 2 (fun _ : Fin n => H)) :
+noncomputable def diagApply (n : ℕ) (v : PiLp 2 (fun _ : Fin n => H)) :
     (H →L[ℂ] H) →ₗ[ℂ] PiLp 2 (fun _ : Fin n => H) where
   toFun s := diagCLM n s v
   map_add' s t := by ext j; simp [diagCLM]
   map_smul' c s := by ext j; simp [diagCLM]
 
 set_option maxHeartbeats 800000 in
-private lemma mem_closure_piLp (n : ℕ) (S : StarSubalgebra ℂ (H →L[ℂ] H))
+lemma mem_closure_piLp (n : ℕ) (S : StarSubalgebra ℂ (H →L[ℂ] H))
     (T : H →L[ℂ] H) (hT : T ∈ (S : Set (H →L[ℂ] H)).centralizer.centralizer)
     (v : PiLp 2 (fun _ : Fin n => H)) :
     diagCLM n T v ∈ closure ((fun s => diagCLM n s v) '' (S : Set (H →L[ℂ] H))) := by
@@ -126,7 +126,7 @@ private lemma mem_closure_piLp (n : ℕ) (S : StarSubalgebra ℂ (H →L[ℂ] H)
   exact Submodule.starProjection_eq_self_iff.mp h.symm
 
 set_option maxHeartbeats 600000 in
-private lemma mem_closure_wot (S : StarSubalgebra ℂ (H →L[ℂ] H)) (T : H →L[ℂ] H)
+lemma mem_closure_wot (S : StarSubalgebra ℂ (H →L[ℂ] H)) (T : H →L[ℂ] H)
     (happrox : ∀ (n : ℕ) (x : Fin n → H) (ε : ℝ), ε > 0 →
       ∃ s ∈ (S : Set (H →L[ℂ] H)), ∀ i, ‖s (x i) - T (x i)‖ < ε) :
     ContinuousLinearMap.toWOT (RingHom.id ℂ) H H T ∈
@@ -170,7 +170,7 @@ private lemma mem_closure_wot (S : StarSubalgebra ℂ (H →L[ℂ] H)) (T : H �
                 ((div_lt_one hyi).mpr (by linarith)) (hε_pos i)
             _ = ε i := mul_one _
 
-private lemma isClosed_wot_centralizer (A : Set (H →L[ℂ] H)) :
+lemma isClosed_wot_centralizer (A : Set (H →L[ℂ] H)) :
     IsClosed (ContinuousLinearMap.toWOT (RingHom.id ℂ) H H '' A.centralizer) := by
   set toWOT := ContinuousLinearMap.toWOT (RingHom.id ℂ) H H
   suffices h_eq : toWOT '' A.centralizer =

@@ -19,18 +19,18 @@ def EliminatesQuantifiers {L : Language} (T : L.Theory) : Prop :=
         ∀ (v : α → M) (xs : Fin n → M),
           φ.Realize v xs ↔ ψ.Realize v xs
 
-private abbrev T_dlo := Language.order.dlo ∪ Language.order.nonemptyTheory
+abbrev T_dlo := Language.order.dlo ∪ Language.order.nonemptyTheory
 
-private theorem nonempty_of_model (M : Type*) [Language.order.Structure M]
+theorem nonempty_of_model (M : Type*) [Language.order.Structure M]
     [hM : M ⊨ T_dlo] : Nonempty M := by
   have := Theory.Model.mono hM (Set.subset_union_right : Language.order.nonemptyTheory ⊆ T_dlo)
   rwa [Language.model_nonemptyTheory_iff] at this
 
-private theorem model_dlo_of_T_dlo (M : Type*) [Language.order.Structure M]
+theorem model_dlo_of_T_dlo (M : Type*) [Language.order.Structure M]
     [hM : M ⊨ T_dlo] : M ⊨ Language.order.dlo :=
   Theory.Model.mono hM (Set.subset_union_left : Language.order.dlo ⊆ T_dlo)
 
-private theorem model_linearOrder_of_T_dlo (M : Type*) [Language.order.Structure M]
+theorem model_linearOrder_of_T_dlo (M : Type*) [Language.order.Structure M]
     [hM : M ⊨ T_dlo] : M ⊨ Language.order.linearOrderTheory := by
   haveI := model_dlo_of_T_dlo M; infer_instance
 
@@ -39,30 +39,30 @@ section Helpers
 open BoundedFormula
 
 /-- Finite conjunction of bounded formulas. -/
-private def bigConj {L : Language} {α : Type*} {n : ℕ}
+def bigConj {L : Language} {α : Type*} {n : ℕ}
     (l : List (L.BoundedFormula α n)) : L.BoundedFormula α n :=
   l.foldr (· ⊓ ·) ⊤
 
 /-- Finite disjunction of bounded formulas. -/
-private def bigDisj {L : Language} {α : Type*} {n : ℕ}
+def bigDisj {L : Language} {α : Type*} {n : ℕ}
     (l : List (L.BoundedFormula α n)) : L.BoundedFormula α n :=
   l.foldr (· ⊔ ·) ⊥
 
-private theorem isQF_bigConj {L : Language} {α : Type*} {n : ℕ}
+theorem isQF_bigConj {L : Language} {α : Type*} {n : ℕ}
     {l : List (L.BoundedFormula α n)} (h : ∀ φ ∈ l, IsQF φ) : (bigConj l).IsQF := by
   induction l with
   | nil => exact IsQF.top
   | cons φ l ih =>
     exact (h φ List.mem_cons_self).inf (ih (fun ψ hψ => h ψ (List.mem_cons_of_mem _ hψ)))
 
-private theorem isQF_bigDisj {L : Language} {α : Type*} {n : ℕ}
+theorem isQF_bigDisj {L : Language} {α : Type*} {n : ℕ}
     {l : List (L.BoundedFormula α n)} (h : ∀ φ ∈ l, IsQF φ) : (bigDisj l).IsQF := by
   induction l with
   | nil => exact isQF_bot
   | cons φ l ih =>
     exact (h φ List.mem_cons_self).sup (ih (fun ψ hψ => h ψ (List.mem_cons_of_mem _ hψ)))
 
-private theorem realize_bigConj {L : Language} {α : Type*} {n : ℕ}
+theorem realize_bigConj {L : Language} {α : Type*} {n : ℕ}
     {M : Type*} [L.Structure M] {l : List (L.BoundedFormula α n)}
     {v : α → M} {xs : Fin n → M} :
     (bigConj l).Realize v xs ↔ ∀ φ ∈ l, φ.Realize v xs := by
@@ -75,7 +75,7 @@ private theorem realize_bigConj {L : Language} {α : Type*} {n : ℕ}
       fun hh => ⟨hh φ List.mem_cons_self,
         ih.mpr (fun ψ hψ => hh ψ (List.mem_cons_of_mem _ hψ))⟩⟩
 
-private theorem realize_bigDisj {L : Language} {α : Type*} {n : ℕ}
+theorem realize_bigDisj {L : Language} {α : Type*} {n : ℕ}
     {M : Type*} [L.Structure M] {l : List (L.BoundedFormula α n)}
     {v : α → M} {xs : Fin n → M} :
     (bigDisj l).Realize v xs ↔ ∃ φ ∈ l, φ.Realize v xs := by
@@ -94,7 +94,7 @@ private theorem realize_bigDisj {L : Language} {α : Type*} {n : ℕ}
         · exact Or.inr (ih.mpr ⟨ψ, hψ', hψr⟩)⟩
 
 /-- In Language.order, every term is a variable. -/
-private theorem order_term_val {γ : Type*} (t : Language.order.Term γ) :
+theorem order_term_val {γ : Type*} (t : Language.order.Term γ) :
     ∃ i, t = Term.var i := by
   cases t with
   | var i => exact ⟨i, rfl⟩
@@ -102,7 +102,7 @@ private theorem order_term_val {γ : Type*} (t : Language.order.Term γ) :
 
 /-- Realization of an atomic order relation `rel orderRel.le ![var a, var b]`
 is equivalent to `≤` on the evaluations. -/
-private theorem realize_order_le {α : Type*} {n : ℕ} {M : Type*}
+theorem realize_order_le {α : Type*} {n : ℕ} {M : Type*}
     [Language.order.Structure M] [Preorder M] [OrderedStructure Language.order M]
     {v : α → M} {xs : Fin n → M} (a b : α ⊕ Fin n)
     {ts : Fin 2 → Language.order.Term (α ⊕ Fin n)}
@@ -120,7 +120,7 @@ private theorem realize_order_le {α : Type*} {n : ℕ} {M : Type*}
 
 /-- QF formulas in Language.order are invariant under evaluations with the same
 comparison type. This is the key model-theoretic invariance lemma. -/
-private theorem qf_order_invariant {α : Type*} {n : ℕ}
+theorem qf_order_invariant {α : Type*} {n : ℕ}
     {M : Type*} [Language.order.Structure M]
     {N : Type*} [Language.order.Structure N]
     (hM : M ⊨ Language.order.linearOrderTheory)
@@ -190,7 +190,7 @@ private theorem qf_order_invariant {α : Type*} {n : ℕ}
 end Helpers
 
 open BoundedFormula in
-private theorem qf_exists_elim {α : Type*} {m : ℕ}
+theorem qf_exists_elim {α : Type*} {m : ℕ}
     (χ : Language.order.BoundedFormula α (m + 1)) (hχ : χ.IsQF) :
     ∃ δ : Language.order.BoundedFormula α m,
       δ.IsQF ∧ ∀ (M : Type*) [Language.order.Structure M] [M ⊨ T_dlo],

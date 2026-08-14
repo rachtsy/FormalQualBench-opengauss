@@ -14,7 +14,7 @@ identically zero or eventually never zero. This combines: (1) expressing the sol
 exponential polynomial via roots of the characteristic polynomial, (2) embedding into a p-adic
 field and choosing `d` so that root ratios become trivial on each residue class, and
 (3) Strassman's theorem bounding the p-adic zeros of the resulting power series. -/
-private lemma padic_zero_set_dichotomy (K : Type*) [Field K] [CharZero K]
+lemma padic_zero_set_dichotomy (K : Type*) [Field K] [CharZero K]
     (E : LinearRecurrence K) (u : ℕ → K) (hu : E.IsSolution u) (hord : E.order ≠ 0) :
     ∃ d : ℕ, 0 < d ∧ ∀ r : Fin d,
       (∃ N, ∀ n, N ≤ n → u (↑r + d * n) = 0) ∨
@@ -24,7 +24,7 @@ private lemma padic_zero_set_dichotomy (K : Type*) [Field K] [CharZero K]
 /-- The zero set of a linear recurrence over a characteristic-zero field is eventually periodic:
 there exist `N` and `d > 0` such that for all `n ≥ N`, `u n = 0 ↔ u (n + d) = 0`.
 This is the core analytic content of the Skolem–Mahler–Lech theorem, requiring p-adic methods. -/
-private theorem zeroSet_eventuallyPeriodic (K : Type*) [Field K] [CharZero K]
+theorem zeroSet_eventuallyPeriodic (K : Type*) [Field K] [CharZero K]
     (E : LinearRecurrence K) (u : ℕ → K) (hu : E.IsSolution u) :
     ∃ (N d : ℕ), 0 < d ∧ ∀ n, N ≤ n → (u n = 0 ↔ u (n + d) = 0) := by
   by_cases hord : E.order = 0
@@ -81,7 +81,7 @@ private theorem zeroSet_eventuallyPeriodic (K : Type*) [Field K] [CharZero K]
 
 /-- An eventually periodic subset of `ℕ` decomposes as a finite set plus a finite union of
 arithmetic progressions. -/
-private theorem eventuallyPeriodic_decomp (S : Set ℕ)
+theorem eventuallyPeriodic_decomp (S : Set ℕ)
     (N d : ℕ) (hd : 0 < d) (hper : ∀ n, N ≤ n → (n ∈ S ↔ n + d ∈ S)) :
     ∃ (s : Finset ℕ) (t : Finset (ℕ × ℕ)),
       S = (s : Set ℕ) ∪ ⋃ p ∈ (t : Set (ℕ × ℕ)), arithProg p.1 p.2 := by
