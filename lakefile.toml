@@ -1,7 +1,7 @@
 name = "FormalQualBench"
 version = "1.0.0"
 keywords = ["math", "benchmark"]
-defaultTargets = ["FormalQualBench"]
+defaultTargets = ["FormalQualBench", "Challenge", "Solution"]
 
 [leanOptions]
 pp.unicode.fun = true # pretty-prints `fun a ↦ b`
